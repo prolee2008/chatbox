@@ -29,10 +29,11 @@ export interface Props {
 export default function SessionItem(props: Props) {
     const { t } = useTranslation()
     const { session, selected, switchMe, deleteMe, copyMe, editMe } = props
-    const [ hovering, setHovering ] = useState(false)
+    const [hovering, setHovering] = useState(false)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation()
         event.preventDefault()
         setAnchorEl(event.currentTarget);
     };
@@ -64,11 +65,13 @@ export default function SessionItem(props: Props) {
                 </Typography>
             </ListItemText>
             {
-                hovering && (
-                    <IconButton onClick={handleClick}>
-                        <MoreHorizOutlinedIcon />
-                    </IconButton>
-                )
+                <IconButton onClick={handleClick} sx={{color: 'primary.main'}} >
+                    {
+                        hovering && (
+                            <MoreHorizOutlinedIcon fontSize="small" />
+                        )
+                    }
+                </IconButton>
             }
             <StyledMenu
                 MenuListProps={{
